@@ -9,8 +9,9 @@ public class GameFrame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Pane root = new Pane();
-        Scene scene = new Scene(root, 600, 400); // Replace these dimensions with your game's dimensions
+        GamePanel gamePanel = new GamePanel();
+        Scene scene = new Scene(gamePanel, gamePanel.SCREEN_WIDTH, gamePanel.SCREEN_HEIGHT);
+
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
         primaryStage.show();
