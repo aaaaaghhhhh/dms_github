@@ -1,4 +1,4 @@
-package com.example.snakegame;
+package com.comp2059.snakegame;
 
 import java.awt.*;
 import java.awt.event.*;

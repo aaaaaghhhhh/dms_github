@@ -1,4 +1,4 @@
-package com.example.snakegame;
+package com.comp2059.snakegame;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

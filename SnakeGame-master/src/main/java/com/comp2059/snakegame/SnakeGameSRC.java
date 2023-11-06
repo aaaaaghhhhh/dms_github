@@ -1,6 +1,5 @@
-package com.example.snakegame;
+package com.comp2059.snakegame;
 
-import com.example.snakegame.GameFrame;
 import javafx.application.Application;
 
 public class SnakeGameSRC {
