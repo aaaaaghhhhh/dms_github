@@ -201,55 +201,59 @@ public class GamePanel extends Pane {
 	int appleY;
 	char direction = 'R';
 	boolean running = false;
-	private AnimationTimer timer;
-	private Random random;
-	private Canvas canvas;
+	AnimationTimer timer;
+	Random random;
+	Canvas canvas;
 	GraphicsContext gc;
-
-
 
 	public GamePanel() {
 		random = new Random();
 		canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-		gc = canvas.getGraphicsContext2D(); // 确保这行代码在这里
-		this.getChildren().add(canvas);
+		gc = canvas.getGraphicsContext2D();
+		getChildren().add(canvas);
+		setFocusTraversable(true);
+
+		// Event handling for key presses
+		setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.LEFT && direction != 'R') {
+				direction = 'L';
+			} else if (event.getCode() == KeyCode.RIGHT && direction != 'L') {
+				direction = 'R';
+			} else if (event.getCode() == KeyCode.UP && direction != 'D') {
+				direction = 'U';
+			} else if (event.getCode() == KeyCode.DOWN && direction != 'U') {
+				direction = 'D';
+			}
+		});
+
 		startGame();
 	}
-		public void startGame() {
-			newApple();
-			running = true;
-			timer = new AnimationTimer() {
-				@Override
-				public void handle(long now) {
+
+	private void startGame() {
+		newApple();
+		running = true;
+		timer = new AnimationTimer() {
+			long lastTick = 0;
+
+			@Override
+			public void handle(long now) {
+				if (lastTick == 0 || now - lastTick > DELAY * 1_000_000) {
+					lastTick = now;
 					if (running) {
 						move();
 						checkApple();
 						checkCollisions();
+						draw();
 					}
-					draw();
 				}
-			};
-			timer.start();
-			setFocusTraversable(true);
-			setOnKeyPressed(e -> {
-				if (e.getCode() == KeyCode.LEFT && direction != 'R') {
-					direction = 'L';
-				} else if (e.getCode() == KeyCode.RIGHT && direction != 'L') {
-					direction = 'R';
-				} else if (e.getCode() == KeyCode.UP && direction != 'D') {
-					direction = 'U';
-				} else if (e.getCode() == KeyCode.DOWN && direction != 'U') {
-					direction = 'D';
-				}
-			});
-		}
+			}
+		};
+		timer.start();
+	}
 
 	private void draw() {
-		if (gc == null) {
-			return; // 如果gc是null，就不继续执行
-		}
-		GraphicsContext g = canvas.getGraphicsContext2D();
-		g.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		if (running) {
 			gc.setFill(Color.RED);
