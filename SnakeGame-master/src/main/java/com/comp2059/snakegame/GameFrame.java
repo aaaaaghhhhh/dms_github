@@ -4,15 +4,21 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class GameFrame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/game_layout.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main_layout.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Snake Game");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+
+        primaryStage.setTitle("Welcome to Snake Game");
+        primaryStage.setWidth(1100); // 设置初始宽度
+        primaryStage.setHeight(800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
